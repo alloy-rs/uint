@@ -1,11 +1,11 @@
 # Rust `uint` crate using const-generics
 
-[![crates.io](https://buildstats.info/crate/ruint)](https://crates.io/crates/ruint)
-[![docs.rs](https://img.shields.io/docsrs/ruint)](https://docs.rs/ruint)
-[![MIT License](https://img.shields.io/github/license/recmo/uint)](https://github.com/recmo/uint/blob/main/mit-license.md)
-[![dependency status](https://deps.rs/repo/github/recmo/uint/status.svg)](https://deps.rs/repo/github/recmo/uint)
-[![codecov](https://codecov.io/gh/recmo/uint/branch/main/graph/badge.svg?token=WBPZ9U4TTO)](https://codecov.io/gh/recmo/uint)
-[![CI](https://github.com/recmo/uint/actions/workflows/ci.yml/badge.svg)](https://github.com/recmo/uint/actions/workflows/ci.yml)
+[![crates.io](https://buildstats.info/crate/ruint)](https://crates.io/crates/ruint2)
+[![docs.rs](https://img.shields.io/docsrs/ruint)](https://docs.rs/ruint2)
+[![MIT License](https://img.shields.io/github/license/alloy-rs/uint)](https://github.com/alloy-rs/uint/blob/main/LICENSE)
+[![dependency status](https://deps.rs/repo/github/alloy-rs/uint/status.svg)](https://deps.rs/repo/github/alloy-rs/uint)
+[![codecov](https://codecov.io/gh/alloy-rs/uint/branch/main/graph/badge.svg?token=WBPZ9U4TTO)](https://codecov.io/gh/alloy-rs/uint)
+[![CI](https://github.com/alloy-rs/uint/actions/workflows/ci.yml/badge.svg)](https://github.com/alloy-rs/uint/actions/workflows/ci.yml)
 
 Implements [`Uint<BITS, LIMBS>`], the ring of numbers modulo $2^{\mathsf{BITS}}$. It requires two
 generic arguments: the number of bits and the number of 64-bit 'limbs' required to store those bits.
@@ -110,6 +110,22 @@ assert_eq!(c, 263947537596669_U256);
 
 Note that since `B` is a valid hexadecimal digit there can be ambiguity. To lessen the impact an underscore separator `_B` is required in this case.
 
+## Supported Rust Versions
+
+<!--
+When updating this, also update:
+- .clippy.toml
+- Cargo.toml
+- .github/workflows/ci.yml
+-->
+
+Uint will keep a rolling MSRV (minimum supported rust version) policy of **at
+least** 6 months. When increasing the MSRV, the new Rust version must have been
+released at least six months ago. The current MSRV is 1.65.0.
+
+Note that the MSRV is not increased automatically, and only as part of a minor
+release.
+
 ## Feature flags
 
 There is support for a number of crates. These are enabled by setting the identically
@@ -176,9 +192,9 @@ RUSTDOCFLAGS="-Z unstable-options --show-coverage"  cargo doc --workspace --all-
 
 ---
 
-[![lines of code](https://img.shields.io/tokei/lines/github/recmo/uint)](https://github.com/recmo/uint)
-[![GitHub contributors](https://img.shields.io/github/contributors/recmo/uint)](https://github.com/recmo/uint/graphs/contributors)
-[![GitHub issues](https://img.shields.io/github/issues/recmo/uint)](https://github.com/recmo/uint/issues)
-[![GitHub pull requests](https://img.shields.io/github/issues-pr/recmo/uint?label=PRs)](https://github.com/recmo/uint/pulls)
-[![GitHub Repo stars](https://img.shields.io/github/stars/recmo/uint)](https://star-history.com/#recmo/uint&Date)
-[![crates.io](https://img.shields.io/crates/d/ruint)](https://crates.io/crates/ruint)
+[![lines of code](https://img.shields.io/tokei/lines/github/alloy-rs/uint)](https://github.com/alloy-rs/uint)
+[![GitHub contributors](https://img.shields.io/github/contributors/alloy-rs/uint)](https://github.com/alloy-rs/uint/graphs/contributors)
+[![GitHub issues](https://img.shields.io/github/issues/alloy-rs/uint)](https://github.com/alloy-rs/uint/issues)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/alloy-rs/uint?label=PRs)](https://github.com/alloy-rs/uint/pulls)
+[![GitHub Repo stars](https://img.shields.io/github/stars/alloy-rs/uint)](https://star-history.com/#alloy-rs/uint&Date)
+[![crates.io](https://img.shields.io/crates/d/ruint2)](https://crates.io/crates/ruint2)

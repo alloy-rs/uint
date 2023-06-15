@@ -1,5 +1,5 @@
-#![doc = include_str!("../Readme.md")]
-#![doc(issue_tracker_base_url = "https://github.com/recmo/uint/issues/")]
+#![doc = include_str!("../README.md")]
+#![doc(issue_tracker_base_url = "https://github.com/alloy-rs/uint/issues")]
 #![warn(clippy::all, clippy::pedantic, clippy::cargo, clippy::nursery)]
 #![allow(
     clippy::module_name_repetitions,

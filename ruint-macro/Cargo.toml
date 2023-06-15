@@ -2,14 +2,14 @@
 name = "ruint2-macro"
 description = "The `uint!` macro for `Uint` literals"
 authors = ["Remco Bloemen <remco@wicked.ventures>"]
+license = "MIT"
+rust-version = "1.65"
 version = "1.0.3"
 edition = "2021"
-homepage = "https://github.com/recmo/uint"
-repository = "https://github.com/recmo/uint"
+homepage = "https://github.com/alloy-rs/uint"
+repository = "https://github.com/alloy-rs/uint"
 keywords = ["uint", "macro"]
 categories = ["mathematics"]
-readme = "Readme.md"
-license-file = "../mit-license.md"
 
 [lib]
 proc-macro = true
