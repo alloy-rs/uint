@@ -11,24 +11,18 @@
     any(test, feature = "bench"),
     allow(clippy::wildcard_imports, clippy::cognitive_complexity)
 )]
-#![cfg_attr(
-    all(has_generic_const_exprs, feature = "generic_const_exprs"),
-    allow(incomplete_features)
-)]
-#![cfg_attr(
-    all(has_generic_const_exprs, feature = "generic_const_exprs"),
-    feature(generic_const_exprs)
-)]
-// See <https://github.com/taiki-e/coverage-helper>
-#![cfg_attr(coverage_nightly, feature(no_coverage))]
-// See <https://stackoverflow.com/questions/61417452/how-to-get-a-feature-requirement-tag-in-the-documentation-generated-by-cargo-do>
-#![cfg_attr(has_doc_cfg, feature(doc_cfg))]
-// Nightly only feature flag to enable the `unlikely` compiler hint.
-#![cfg_attr(has_core_intrinsics, feature(core_intrinsics))]
+// Unstable features
+#![cfg_attr(docsrs, feature(doc_cfg, doc_auto_cfg))]
+#![cfg_attr(feature = "nightly", feature(no_coverage, core_intrinsics))]
+#![cfg_attr(feature = "generic_const_exprs", feature(generic_const_exprs))]
+#![cfg_attr(feature = "generic_const_exprs", allow(incomplete_features))]
 
 // Workaround for proc-macro `uint!` in this crate.
 // See <https://github.com/rust-lang/rust/pull/55275>
-// extern crate self as ruint;
+extern crate self as ruint2;
+
+#[macro_use]
+mod macros;
 
 mod add;
 pub mod algorithms;
@@ -50,12 +44,7 @@ mod root;
 mod special;
 mod string;
 mod support;
-mod uint_dyn;
 mod utils;
-
-#[cfg(all(feature = "dyn", feature = "unstable"))]
-#[doc(inline)]
-pub use uint_dyn::UintDyn;
 
 #[doc(inline)]
 pub use bit_arr::Bits;
@@ -71,7 +60,7 @@ pub use self::{
 #[doc(inline)]
 pub use ruint2_macro::uint;
 
-#[cfg(all(has_generic_const_exprs, feature = "generic_const_exprs"))]
+#[cfg(feature = "generic_const_exprs")]
 pub mod nightly {
     //! Extra features that are nightly only.
 

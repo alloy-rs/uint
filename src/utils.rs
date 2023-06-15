@@ -25,94 +25,31 @@ pub fn trim_end_vec<T: PartialEq>(vec: &mut Vec<T>, value: &T) {
     }
 }
 
-#[cfg(has_core_intrinsics)]
+// Branch prediction hints.
+#[cfg(feature = "nightly")]
 pub use core::intrinsics::{likely, unlikely};
 
-#[cfg(not(has_core_intrinsics))]
+// On stable we can use #[cold] to get a equivalent effect: this attribute
+// suggests that the function is unlikely to be called
+#[cfg(not(feature = "nightly"))]
 #[inline(always)]
-pub const fn unlikely(b: bool) -> bool {
+#[cold]
+fn cold() {}
+
+#[cfg(not(feature = "nightly"))]
+#[inline(always)]
+pub fn likely(b: bool) -> bool {
+    if !b {
+        cold();
+    }
     b
 }
 
-#[cfg(not(has_core_intrinsics))]
+#[cfg(not(feature = "nightly"))]
 #[inline(always)]
-pub const fn likely(b: bool) -> bool {
+pub fn unlikely(b: bool) -> bool {
+    if b {
+        cold();
+    }
     b
-}
-
-#[macro_export]
-#[doc(hidden)]
-// TODO: (BLOCKED) make this macro `pub(crate)` when supported.
-// See <https://github.com/rust-lang/rust/issues/39412>
-macro_rules! impl_bin_op {
-    ($trait:ident, $fn:ident, $trait_assign:ident, $fn_assign:ident, $fdel:ident) => {
-        impl<const BITS: usize, const LIMBS: usize> $trait_assign<Uint<BITS, LIMBS>>
-            for Uint<BITS, LIMBS>
-        {
-            #[allow(clippy::inline_always)]
-            #[inline(always)]
-            #[track_caller]
-            fn $fn_assign(&mut self, rhs: Uint<BITS, LIMBS>) {
-                *self = self.$fdel(rhs);
-            }
-        }
-        impl<const BITS: usize, const LIMBS: usize> $trait_assign<&Uint<BITS, LIMBS>>
-            for Uint<BITS, LIMBS>
-        {
-            #[allow(clippy::inline_always)]
-            #[inline(always)]
-            #[track_caller]
-            fn $fn_assign(&mut self, rhs: &Uint<BITS, LIMBS>) {
-                *self = self.$fdel(*rhs);
-            }
-        }
-        impl<const BITS: usize, const LIMBS: usize> $trait<Uint<BITS, LIMBS>>
-            for Uint<BITS, LIMBS>
-        {
-            type Output = Uint<BITS, LIMBS>;
-
-            #[allow(clippy::inline_always)]
-            #[inline(always)]
-            #[track_caller]
-            fn $fn(self, rhs: Uint<BITS, LIMBS>) -> Self::Output {
-                self.$fdel(rhs)
-            }
-        }
-        impl<const BITS: usize, const LIMBS: usize> $trait<&Uint<BITS, LIMBS>>
-            for Uint<BITS, LIMBS>
-        {
-            type Output = Uint<BITS, LIMBS>;
-
-            #[allow(clippy::inline_always)]
-            #[inline(always)]
-            #[track_caller]
-            fn $fn(self, rhs: &Uint<BITS, LIMBS>) -> Self::Output {
-                self.$fdel(*rhs)
-            }
-        }
-        impl<const BITS: usize, const LIMBS: usize> $trait<Uint<BITS, LIMBS>>
-            for &Uint<BITS, LIMBS>
-        {
-            type Output = Uint<BITS, LIMBS>;
-
-            #[allow(clippy::inline_always)]
-            #[inline(always)]
-            #[track_caller]
-            fn $fn(self, rhs: Uint<BITS, LIMBS>) -> Self::Output {
-                self.$fdel(rhs)
-            }
-        }
-        impl<const BITS: usize, const LIMBS: usize> $trait<&Uint<BITS, LIMBS>>
-            for &Uint<BITS, LIMBS>
-        {
-            type Output = Uint<BITS, LIMBS>;
-
-            #[allow(clippy::inline_always)]
-            #[inline(always)]
-            #[track_caller]
-            fn $fn(self, rhs: &Uint<BITS, LIMBS>) -> Self::Output {
-                self.$fdel(*rhs)
-            }
-        }
-    };
 }

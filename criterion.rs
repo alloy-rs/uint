@@ -1,7 +1,5 @@
-use ruint as lib;
-
 fn main() {
     let mut criterion = criterion::Criterion::default().configure_from_args();
-    lib::bench::group(&mut criterion);
+    ruint2::bench::group(&mut criterion);
     criterion.final_summary();
 }

@@ -1,4 +1,4 @@
-use crate::{impl_bin_op, Uint};
+use crate::Uint;
 use core::{
     iter::Sum,
     ops::{Add, AddAssign, Neg, Sub, SubAssign},

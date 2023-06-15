@@ -32,7 +32,7 @@
 // }
 
 use crate::Uint;
-use core::{any::type_name, convert::TryFrom, fmt::Debug};
+use core::{any::type_name, fmt::Debug};
 use thiserror::Error;
 
 /// Error for [`TryFrom<T>`][TryFrom] for [`Uint`].

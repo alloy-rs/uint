@@ -1,4 +1,4 @@
-use crate::{algorithms, impl_bin_op, Uint};
+use crate::{algorithms, Uint};
 use core::ops::{Div, DivAssign, Rem, RemAssign};
 
 impl<const BITS: usize, const LIMBS: usize> Uint<BITS, LIMBS> {
