@@ -203,7 +203,7 @@ impl_bin_op!(Add, add, AddAssign, add_assign, wrapping_add);
 impl_bin_op!(Sub, sub, SubAssign, sub_assign, wrapping_sub);
 
 #[cfg(test)]
-pub mod tests {
+mod tests {
     use super::*;
     use crate::{const_for, nlimbs};
     use proptest::proptest;
@@ -262,64 +262,6 @@ pub mod tests {
                 assert_eq!(a - a, U::ZERO);
                 assert_eq!(-(-a), a);
             });
-        });
-    }
-}
-
-#[cfg(feature = "bench")]
-#[doc(hidden)]
-pub mod bench {
-    use super::*;
-    use crate::{const_for, nlimbs};
-    use ::proptest::{
-        arbitrary::Arbitrary,
-        strategy::{Strategy, ValueTree},
-        test_runner::TestRunner,
-    };
-    use criterion::{black_box, BatchSize, Criterion};
-
-    pub fn group(criterion: &mut Criterion) {
-        const_for!(BITS in BENCH {
-            const LIMBS: usize = nlimbs(BITS);
-            bench_neg::<BITS, LIMBS>(criterion);
-            bench_add::<BITS, LIMBS>(criterion);
-            bench_sub::<BITS, LIMBS>(criterion);
-        });
-    }
-
-    fn bench_neg<const BITS: usize, const LIMBS: usize>(criterion: &mut Criterion) {
-        let input = Uint::<BITS, LIMBS>::arbitrary();
-        let mut runner = TestRunner::deterministic();
-        criterion.bench_function(&format!("neg/{BITS}"), move |bencher| {
-            bencher.iter_batched(
-                || input.new_tree(&mut runner).unwrap().current(),
-                |a| black_box(-black_box(a)),
-                BatchSize::SmallInput,
-            );
-        });
-    }
-
-    fn bench_add<const BITS: usize, const LIMBS: usize>(criterion: &mut Criterion) {
-        let input = (Uint::<BITS, LIMBS>::arbitrary(), Uint::arbitrary());
-        let mut runner = TestRunner::deterministic();
-        criterion.bench_function(&format!("add/{BITS}"), move |bencher| {
-            bencher.iter_batched(
-                || input.new_tree(&mut runner).unwrap().current(),
-                |(a, b)| black_box(black_box(a) + black_box(b)),
-                BatchSize::SmallInput,
-            );
-        });
-    }
-
-    fn bench_sub<const BITS: usize, const LIMBS: usize>(criterion: &mut Criterion) {
-        let input = (Uint::<BITS, LIMBS>::arbitrary(), Uint::arbitrary());
-        let mut runner = TestRunner::deterministic();
-        criterion.bench_function(&format!("sub/{BITS}"), move |bencher| {
-            bencher.iter_batched(
-                || input.new_tree(&mut runner).unwrap().current(),
-                |(a, b)| black_box(black_box(a) - black_box(b)),
-                BatchSize::SmallInput,
-            );
         });
     }
 }

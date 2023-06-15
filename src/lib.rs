@@ -1,6 +1,13 @@
 #![doc = include_str!("../README.md")]
 #![doc(issue_tracker_base_url = "https://github.com/alloy-rs/uint/issues")]
-#![warn(clippy::all, clippy::pedantic, clippy::cargo, clippy::nursery)]
+#![warn(
+    clippy::all,
+    clippy::pedantic,
+    clippy::cargo,
+    clippy::nursery,
+    unreachable_pub
+)]
+#![cfg_attr(not(test), warn(unused_crate_dependencies))]
 #![allow(
     clippy::module_name_repetitions,
     clippy::inline_always,
@@ -133,7 +140,7 @@ impl<const BITS: usize, const LIMBS: usize> Uint<BITS, LIMBS> {
     pub const LIMBS: usize = nlimbs(BITS);
 
     /// Bit mask for the last limb.
-    const MASK: u64 = mask(BITS);
+    pub const MASK: u64 = mask(BITS);
 
     /// The size of this integer type in bits.
     pub const BITS: usize = BITS;
@@ -292,7 +299,7 @@ pub const fn nlimbs(bits: usize) -> usize {
 
 /// Mask to apply to the highest limb to get the correct number of bits.
 #[must_use]
-const fn mask(bits: usize) -> u64 {
+pub const fn mask(bits: usize) -> u64 {
     if bits == 0 {
         return 0;
     }
@@ -336,23 +343,5 @@ mod test {
             assert_eq!(Uint::<BITS, LIMBS>::MIN, Uint::<BITS, LIMBS>::ZERO);
             let _ = Uint::<BITS, LIMBS>::MAX;
         });
-    }
-}
-
-#[cfg(feature = "bench")]
-#[doc(hidden)]
-pub mod bench {
-    use super::*;
-    use criterion::Criterion;
-
-    pub fn group(criterion: &mut Criterion) {
-        add::bench::group(criterion);
-        mul::bench::group(criterion);
-        div::bench::group(criterion);
-        pow::bench::group(criterion);
-        log::bench::group(criterion);
-        root::bench::group(criterion);
-        modular::bench::group(criterion);
-        algorithms::bench::group(criterion);
     }
 }

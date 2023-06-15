@@ -342,37 +342,3 @@ mod tests {
         assert_eq!(borrow, 17196576577663999042);
     }
 }
-
-#[cfg(feature = "bench")]
-#[doc(hidden)]
-pub mod bench {
-    use crate::const_for;
-
-    use super::*;
-    use criterion::{black_box, BatchSize, Criterion};
-    use rand::Rng;
-
-    pub fn group(criterion: &mut Criterion) {
-        bench_addmul_nnn(criterion);
-    }
-
-    fn bench_addmul_nnn(criterion: &mut Criterion) {
-        const_for!(SIZE in [0,1,2,3,4,5,6] {
-            let mut rng = rand::thread_rng();
-            criterion.bench_function(&format!("algo/addmul_n/{SIZE}"), move |bencher| {
-                bencher.iter_batched(
-                    || (
-                        rng.gen::<[u64; SIZE]>(),
-                        rng.gen::<[u64; SIZE]>(),
-                        rng.gen::<[u64; SIZE]>(),
-                    ),
-                    |(mut lhs, a, b)| {
-                        addmul_n(&mut lhs, &a, &b);
-                        black_box(lhs)
-                    },
-                    BatchSize::SmallInput,
-                );
-            });
-        });
-    }
-}
