@@ -24,8 +24,8 @@ jobs:
             - name: exclude nightly features
               if: matrix.rust != 'nightly'
               run: |
-                  sed -i 's/nightly = \[\]//g' Cargo.toml
-                  sed -i 's/generic_const_exprs = \["nightly"\]//g' Cargo.toml
+                  sed -i 's/nightly = \[\]//g' crates/ruint/Cargo.toml
+                  sed -i 's/generic_const_exprs = \["nightly"\]//g' crates/ruint/Cargo.toml
             - uses: Swatinem/rust-cache@v2
             - name: test
               run: cargo test --workspace --all-features
