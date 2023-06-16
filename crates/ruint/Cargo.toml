@@ -25,7 +25,6 @@ path = "benches/bench.rs"
 [dependencies]
 ruint2-macro.workspace = true
 
-derive_more = "0.99.17"
 thiserror = "1.0"
 
 # support

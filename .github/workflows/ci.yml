@@ -41,7 +41,9 @@ jobs:
             - uses: Swatinem/rust-cache@v2
             - name: cargo hack
               run: |
-                  cargo hack check --feature-powerset --exclude-features nightly,bench --depth 1 \
+                  cargo hack check \
+                  --feature-powerset --exclude-features nightly,generic_const_exprs \
+                  --depth 1 \
                   --all-targets
 
     # codecov:
